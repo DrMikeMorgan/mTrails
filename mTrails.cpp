@@ -26,12 +26,14 @@ bool mTrailSet::addEdgeToTrail(int ed, int trail)
 
 	//new edge must be adjacent to an end
 	//search to see if either front or back is an adjacent edge
+	//also search for duplicate edges!!!!
 
 	edgeIterator e;
 	for(e = (*g)[ed].begin(); e != (*g)[ed].end(); ++e)
 	{
 		if(e->dest == front)
 		{
+			bool doubleback = false;
 			if(trails[trail].size()>1)	//check for double back
 			{
 				edgeIterator e2; 
@@ -40,15 +42,21 @@ bool mTrailSet::addEdgeToTrail(int ed, int trail)
 				cout << "scndend: " << *second << "\n";
 				for(e2 = (*g)[front].begin(); e2 != (*g)[front].end(); ++e2)
 					if(e2->dest == *second && e->id == e2->id)
-						return false;
+					{
+						doubleback = true;
+					}
 			}
 
-			trails[trail].push_front(ed);
-			edgeData[trail][ed] = true;
-			return true;
+			if(!doubleback)
+			{
+				trails[trail].push_front(ed);
+				edgeData[trail][ed] = true;
+				return true;
+			}
 		}
 		if(e->dest == back)
 		{
+			bool doubleback = false;
 			if(trails[trail].size()>1)	//check for double back
 			{
 				edgeIterator e2;
@@ -58,13 +66,18 @@ bool mTrailSet::addEdgeToTrail(int ed, int trail)
 				cout << "scndend: " << *second << "\n";
 				for(e2 = (*g)[back].begin(); e2 != (*g)[back].end(); ++e2)
 					if(e2->dest == *second && e->id == e2->id)
-						return false;
+					{
+						doubleback = true;
+					}
 			}
 
-			edgeData[trail][ed] = true;
-			trails[trail].push_back(ed);
-			return true;
-		} 
+			if(!doubleback)
+			{
+				edgeData[trail][ed] = true;
+				trails[trail].push_back(ed);
+				return true;
+			} 
+		}	
 	}
 
 	//still to do - deal with cycles (although I think this works in the simple case)

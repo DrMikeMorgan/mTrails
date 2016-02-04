@@ -103,7 +103,7 @@ int main() {
 
 	mTrailSet mt(&eg);
 
-	int addseq[] = {3,1,11,8,5,9};
+	int addseq[] = {6,8,11,5,7};
 
 	for(int i=0; i<sizeof(addseq)/sizeof(int); ++i)
 		cout << "\nAdding " << addseq[i] << "... " << (mt.addEdgeToTrail(addseq[i],0) ? "succeeded ":"failed ") << "\n" << mt;
