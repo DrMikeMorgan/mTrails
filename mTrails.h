@@ -28,17 +28,23 @@ typedef std::list<edge>::iterator edgeIterator;
 
 class mTrailSet
 {
-	int nonempty;
+	//int nonempty;
 	graph* g; //edge graph?
-	std::vector<std::vector<bool> > adjMatrix;
 	std::vector<std::list<int> > trails;
 	std::vector<std::vector<bool> > edgeData;  
 public:
 	mTrailSet(){}
 	mTrailSet(graph* g);
-	void CrapHeuristic();
+	void crapHeuristic(int add_aggression);
 	bool addEdgeToTrail(int edge, int trail);
+	bool removeEdgeFromTrail(int edge, int trail);
+	int newTrailAtEnd(int edge, int trail); //returns index of new trail (-1 otherwise)
+	int newTrailAt(int edge);	//returns index of new trail (-1 otherwise)
+	bool removeTrail(int trail);
+	int removeAllTrails();
+	bool feasibleGrow(int trail);
 	bool Check();
+	double evaluate();
 	friend std::ostream& operator << (std::ostream& o, mTrailSet& m);
 };
 

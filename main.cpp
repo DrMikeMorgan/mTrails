@@ -87,14 +87,15 @@ void MyGlWindow::draw()
 int main() {
     //Fl_Window win(500, 300, "OpenGL X");
     //MyGlWindow mygl(10, 10, win.w()-20, win.h()-20);
-    
 
-	const int n = 10;
+	const int n = 8;
 	const float dmax = 0.5;
 	graph g;
 	vector<vector<float> > coords;
 	
 	g = crapGenerator(n,dmax,0.7,coords);
+	g[5].push_back(edge(7,10));
+	g[7].push_back(edge(5,10));
 	//mygl.setGraph(&g,&coords);
 
 	cout << g << "\n\n";
@@ -103,13 +104,18 @@ int main() {
 
 	mTrailSet mt(&eg);
 
-	int addseq[] = {6,8,11,5,7};
-
-	for(int i=0; i<sizeof(addseq)/sizeof(int); ++i)
-		cout << "\nAdding " << addseq[i] << "... " << (mt.addEdgeToTrail(addseq[i],0) ? "succeeded ":"failed ") << "\n" << mt;
-	
-
+	for(char q = 'n'; q != 'y'; cin >> q)
+	{	
+		mt.crapHeuristic(50);
+		cout << mt << "\nEvaluation: " << mt.evaluate() << "\n\n";
+	}
     //win.resizable(mygl);
+	
+	std::cout << "Quick Bollocks: ";
+	
+	graph a = g;
+	a[2].push_back(edge(1234,5678));
+	cout << a << g ;	
 
     //win.show();
     return 0; //(Fl::run());
